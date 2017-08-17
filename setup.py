@@ -116,14 +116,15 @@ class Distribution(_Distribution):
         return False
 
     def ext_status(self, ext):
-        implementation = platform.python_implementation()
+        return False
+        '''implementation = platform.python_implementation()
         if implementation != 'CPython':
             return False
         if isinstance(ext, Extension):
             with_ext = getattr(self, ext.attr_name)
             return with_ext
         else:
-            return True
+            return True'''
 
 
 class Extension(_Extension):
