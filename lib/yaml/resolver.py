@@ -27,12 +27,12 @@ class BaseResolver(object):
         if not 'yaml_implicit_resolvers' in cls.__dict__:
             implicit_resolvers = {}
             for key in cls.yaml_implicit_resolvers:
-                implicit_resolvers[key] = cls.yaml_implicit_resolvers[key][:]
+                implicit_resolvers[key] = set(cls.yaml_implicit_resolvers[key])
             cls.yaml_implicit_resolvers = implicit_resolvers
         if first is None:
             first = [None]
         for ch in first:
-            cls.yaml_implicit_resolvers.setdefault(ch, []).append((tag, regexp))
+            cls.yaml_implicit_resolvers.setdefault(ch, set()).add((tag, regexp))
     add_implicit_resolver = classmethod(add_implicit_resolver)
 
     def add_path_resolver(cls, tag, path, kind=None):

@@ -41,6 +41,21 @@ def test_implicit_resolver_leak(data_filename, detect_filename, verbose=False):
 
 test_implicit_resolver_leak.unittest = ['.data', '.path']
 
+def test_implicit_resolver_no_duplicates(data_filename, detect_filename, verbose=False):
+    # Add any custom resolver
+    tag, regexp = '!any_resolver2', re.compile('AnyResolver2')
+    curlen = len(yaml.Dumper.yaml_implicit_resolvers.get(None))
+
+    yaml.add_implicit_resolver(tag, regexp)
+    none_resolvers = yaml.Dumper.yaml_implicit_resolvers.get(None, set())
+    assert len(none_resolvers) == curlen + 1
+
+    yaml.add_implicit_resolver(tag, regexp)
+    none_resolvers = yaml.Dumper.yaml_implicit_resolvers.get(None, set())
+    assert len(none_resolvers) == curlen + 1
+
+test_implicit_resolver_no_duplicates.unittest = ['.data', '.path']
+
 def _make_path_loader_and_dumper():
     global MyLoader, MyDumper
 
